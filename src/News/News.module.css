@@ -1,0 +1,21 @@
+.item {
+    padding: 20px;
+    margin: 20px;
+    background: lightgray;
+    display: flex;
+}
+
+.itemImage {
+    flex-shrink: 0;
+    height: 200px;
+    width: 200px;
+    background: lightcoral;
+}
+.itemImage img {
+    height: 100%;
+    width: 100%;
+}
+
+.itemInfo {
+    margin-left: 20px;
+}
