@@ -1,0 +1,8 @@
+.root {
+    padding: 0 300px;
+}
+.question {
+    padding: 20px;
+    margin: 20px;
+    background: aliceblue;
+}

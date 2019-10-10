@@ -1,4 +1,7 @@
 import React from 'react'
+import {
+  Link
+} from 'react-router-dom'
 import css from './Header.module.css'
 
 class Header extends React.Component {
@@ -7,10 +10,13 @@ class Header extends React.Component {
       <div className={css.header}>
         <ul className={css.list}>
           <li>
-            <a href='#/profile' className={css.listItem}>Profile</a>
+            <Link to='/' className={css.listItem}>Home</Link>
+          </li>
+          <li>
+            <Link to='/questions' className={css.listItem}>Questions</Link>
           </li>
           <li >
-            <a href='#/news' className={css.listItem}>News</a>
+            <Link to='/news' className={css.listItem}>News</Link>
           </li>
         </ul>
       </div>
