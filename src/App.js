@@ -5,6 +5,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom'
+import CreateQuestions from './CreateQuestions'
 import Header from './Header'
 import Questions from './Questions'
 import css from './App.module.css'
@@ -23,6 +24,9 @@ const App = () => (
         </Route>
         <Route exact path='/questions'>
           <Questions />
+        </Route>
+        <Route exact path='/create-questions'>
+          <CreateQuestions />
         </Route>
       </Switch>
     </Router>

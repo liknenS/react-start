@@ -1,4 +1,7 @@
 import React from 'react'
+import CheckBoxGroup from '../elements/CheckBoxGroup'
+import Input from '../elements/Input'
+import RadioGroup from '../elements/RadioGroup'
 import css from './Questions.module.css'
 
 const TMP = [
@@ -46,58 +49,10 @@ const TMP = [
   },
 ]
 
-const TextQuestion = ({ name, onChange, value }) => (
-  <div>
-    <input
-      value={value}
-      name={name}
-      onChange={(e) => onChange({ name, value: e.target.value })}
-    />
-  </div>
-)
-
-const SelectQuestion = ({ answers, name, value, onChange }) => (
-  <div>
-    {answers.map((a, i) => (
-      <div key={i}>
-        <input
-          checked={value === a.label}
-          name={name}
-          type='radio'
-          onChange={() => onChange({ name, value: a.label })}
-        />
-        <label>{i}: {a.label}</label>
-      </div>
-    ))}
-  </div>
-)
-
-const MultiSelectQuestion = ({ answers, name, value = [], onChange  }) => (
-  <div>
-    {answers.map((a, i) => (
-      <div key={i}>
-        <input
-          name={name}
-          checked={value.includes(a.label)}
-          type='checkbox'
-          onChange={(e) => {
-            let newValue = value.filter(l => l !== a.label)
-            if (e.target.checked) {
-              newValue.push(a.label)
-            }
-            onChange({ name, value: newValue })
-          }}
-        />
-        <label>{i}: {a.label}</label>
-      </div>
-    ))}
-  </div>
-)
-
 const QUESTION_COMPONENT = {
-  text: TextQuestion,
-  select: SelectQuestion,
-  multi: MultiSelectQuestion,
+  text: Input,
+  select: RadioGroup,
+  multi: CheckBoxGroup,
 }
 
 
@@ -119,17 +74,22 @@ class Questions extends React.Component {
 
   renderQuestion = (q) => {
     const { answers } = this.state
-    const C = QUESTION_COMPONENT[q.type]
+    const Component = QUESTION_COMPONENT[q.type]
     return (
       <div key={q.name} className={css.question}>
         <div>{q.text} </div>
-        <C {...q} onChange={this.onChange} value={answers[q.name]} />
+        <Component
+          name={q.name}
+          options={q.answers}
+          onChange={this.onChange}
+          value={answers[q.name]}
+        />
       </div>
     )
   }
 
   render () {
-    const { questionsList, answers } = this.state
+    const { questionsList } = this.state
     return (
       <div className={css.root}>
         {questionsList.map(this.renderQuestion)}
