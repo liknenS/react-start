@@ -2,52 +2,7 @@ import React from 'react'
 import CheckBoxGroup from '../elements/CheckBoxGroup'
 import Input from '../elements/Input'
 import RadioGroup from '../elements/RadioGroup'
-import css from './Questions.module.css'
-
-const TMP = [
-  {
-    type: 'text',
-    name: 'name',
-    text: 'Your name?',
-  },
-  {
-    type: 'text',
-    name: 'age',
-    text: 'Your Age?',
-  },
-  {
-    type: 'select',
-    name: 'language',
-    text: 'Your Language?',
-    answers: [
-      {
-        label: 'C#'
-      },
-      {
-        label: 'JS'
-      },
-      {
-        label: 'Java'
-      },
-    ]
-  },
-  {
-    type: 'multi',
-    name: 'hobby',
-    text: 'Your Hobby?',
-    answers: [
-      {
-        label: 'Snowboard'
-      },
-      {
-        label: 'Football'
-      },
-      {
-        label: 'Programming'
-      },
-    ]
-  },
-]
+import css from './QuizAnswer.module.css'
 
 const QUESTION_COMPONENT = {
   text: Input,
@@ -56,10 +11,9 @@ const QUESTION_COMPONENT = {
 }
 
 
-class Questions extends React.Component {
+class QuizAnswer extends React.Component {
 
   state = {
-    questionsList: TMP,
     answers: {}
   }
 
@@ -70,6 +24,10 @@ class Questions extends React.Component {
         [name]: value,
       }
     })
+  }
+
+  onSubmit = () => {
+    alert(JSON.stringify(this.state.answers, null, 2))
   }
 
   renderQuestion = (q) => {
@@ -89,13 +47,17 @@ class Questions extends React.Component {
   }
 
   render () {
-    const { questionsList } = this.state
+    const { quiz } = this.props
+    const { questions = [] } = quiz
     return (
       <div className={css.root}>
-        {questionsList.map(this.renderQuestion)}
+        {questions.map(this.renderQuestion)}
+        <div className={css.buttons}>
+          <button onClick={this.onSubmit}>Submit</button>
+        </div>
       </div>
     )
   }
 }
 
-export default Questions
+export default QuizAnswer

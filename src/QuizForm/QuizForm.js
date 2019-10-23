@@ -1,7 +1,7 @@
 import React from 'react'
 import Input from '../elements/Input'
 import Select from '../elements/Select'
-import css from './CreateQuestions.module.css'
+import css from './QuizForm.module.css'
 
 const QUESTION_TYPE_OPTIONS = [
   {
@@ -32,7 +32,7 @@ const AnswersForm = ({ answers = [], onChange }) => {
     <button onClick={addAnswer}>Add Answers</button>
     {
       answers.map((answer, i) => (
-        <div>
+        <div key={i}>
           <div>{i + 1}:</div>
           <Input name={i} value={answer.label} onChange={onChangeAnswer} />
         </div>
@@ -80,19 +80,21 @@ const QuestionsForm = ({ question, onChange }) => {
   )
 }
 
+const INITIAL_STATE = {
+  name: 'q',
+  questions: []
+}
 
-class CreateQuestions extends React.Component {
-  state = {
-    questions: []
-  }
+class QuizForm extends React.Component {
+  state = INITIAL_STATE
   onAdd = () => {
     const { questions } = this.state
     const newQuestions = [
       ...questions,
       {
-        type: '',
-        name: '',
-        text: '',
+        type: 'text',
+        name: 'age',
+        text: 'Age?',
       }
     ]
 
@@ -106,20 +108,35 @@ class CreateQuestions extends React.Component {
     this.setState({ questions: newQuestions })
   }
 
+  onChangeName = ({ value }) => this.setState({ name: value })
+
+  onSubmit = () => {
+    const { onSubmit } = this.props
+    onSubmit(this.state)
+    this.setState(INITIAL_STATE)
+  }
+
   render () {
-    const { questions } = this.state
+    const { questions, name } = this.state
     return (
       <div className={css.root}>
-        <h1>Create questions</h1>
-        <button onClick={this.onAdd}>Add Question</button>
+        <h1>Create Quiz</h1>
+        <div>
+          <div>Quiz name:</div>
+          <Input name='name' value={name} onChange={this.onChangeName} />
+        </div>
         <div>
           {questions.map((question, i) => (
             <QuestionsForm key={i} question={question} onChange={(q) => this.onQuestionChange(i, q)} />
           ))}
+        </div>
+        <div className={css.buttons}>
+          <button onClick={this.onAdd}>Add Question</button>
+          <button onClick={this.onSubmit}>Submit</button>
         </div>
       </div>
     )
   }
 }
 
-export default CreateQuestions
+export default QuizForm

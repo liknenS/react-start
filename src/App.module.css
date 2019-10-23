@@ -4,5 +4,8 @@
 }
 
 .content {
-
+    max-width: 800px;
+    min-width: 300px;
+    padding: 0 15px;
+    margin: 0 auto;
 }

@@ -1,0 +1,15 @@
+.root {
+    padding: 20px;
+}
+
+.question{
+    padding: 20px;
+    margin: 20px 0;
+    background: aliceblue;
+}
+
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}

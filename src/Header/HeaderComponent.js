@@ -13,13 +13,13 @@ class Header extends React.Component {
             <Link to='/' className={css.listItem}>Home</Link>
           </li>
           <li>
-            <Link to='/questions' className={css.listItem}>Questions</Link>
-          </li>
-          <li>
             <Link to='/news' className={css.listItem}>News</Link>
           </li>
           <li>
-            <Link to='/create-questions' className={css.listItem}>Create Questions</Link>
+            <Link to='/create-quiz' className={css.listItem}>Create quiz</Link>
+          </li>
+          <li>
+            <Link to='/quiz' className={css.listItem}>Quiz List</Link>
           </li>
         </ul>
       </div>
