@@ -41,44 +41,48 @@ const AnswersForm = ({ answers = [], onChange }) => {
   </div>
 }
 
+class QuestionsForm extends React.PureComponent {
 
-const QuestionsForm = ({ question, onChange }) => {
-  const updateQuestion = ({ name, value }) => {
+  updateQuestion = ({ name, value }) => {
+    const { onChange, question, index } = this.props
     console.log('updateQuestion', { name, value })
     const newQuestion = {
       ...question,
       [name]: value,
     }
-    onChange(newQuestion)
+    onChange({ index, data: newQuestion })
   }
 
-
-  return (
-    <div className={css.question}>
-      <div>
-        <div>type:</div>
-        <Select
-          name='type'
-          value={question.type}
-          options={QUESTION_TYPE_OPTIONS}
-          onChange={updateQuestion}
-        />
+  render() {
+    const { question  } = this.props
+    return (
+      <div className={css.question}>
+        <div>
+          <div>type:</div>
+          <Select
+            name='type'
+            value={question.type}
+            options={QUESTION_TYPE_OPTIONS}
+            onChange={this.updateQuestion}
+          />
+        </div>
+        <div>
+          <div>name:</div>
+          <Input name='name' placeholder='name' value={question.name} onChange={this.updateQuestion}/>
+        </div>
+        <div>
+          <div>text:</div>
+          <Input name='text' placeholder='text'  value={question.text} onChange={this.updateQuestion}/>
+        </div>
+        {TYPES_WITH_ANSWERS.includes(question.type)
+          ? <AnswersForm answers={question.answers} onChange={this.updateQuestion} />
+          : null
+        }
       </div>
-      <div>
-        <div>name:</div>
-        <Input name='name' placeholder='name' value={question.name} onChange={updateQuestion}/>
-      </div>
-      <div>
-        <div>text:</div>
-        <Input name='text' placeholder='text'  value={question.text} onChange={updateQuestion}/>
-      </div>
-      {TYPES_WITH_ANSWERS.includes(question.type)
-        ? <AnswersForm answers={question.answers} onChange={updateQuestion} />
-        : null
-      }
-    </div>
-  )
+    )
+  }
 }
+
 
 const INITIAL_STATE = {
   name: 'q',
@@ -101,14 +105,14 @@ class QuizForm extends React.Component {
     this.setState({ questions: newQuestions })
   }
 
-  onQuestionChange = (i, data) => {
+  onQuestionChange = ({ index, data }) => {
     const { questions } = this.state
     const newQuestions = [...questions]
-    newQuestions[i] = data
+    newQuestions[index] = data
     this.setState({ questions: newQuestions })
   }
 
-  onChangeName = ({ value }) => this.setState({ name: value })
+  onChangeName = ({ value, name }) => this.setState({ [name]: value })
 
   onSubmit = () => {
     const { onSubmit } = this.props
@@ -127,7 +131,7 @@ class QuizForm extends React.Component {
         </div>
         <div>
           {questions.map((question, i) => (
-            <QuestionsForm key={i} question={question} onChange={(q) => this.onQuestionChange(i, q)} />
+            <QuestionsForm key={i} question={question} index={i} onChange={this.onQuestionChange} />
           ))}
         </div>
         <div className={css.buttons}>
