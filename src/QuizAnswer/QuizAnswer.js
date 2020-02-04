@@ -2,8 +2,8 @@ import React from 'react'
 import CheckBoxGroup from '../elements/CheckBoxGroup'
 import Input from '../elements/Input'
 import RadioGroup from '../elements/RadioGroup'
-import css from './QuizAnswer.module.css'
-
+import css from './QuizAnswer.module.css';
+import {connect} from "react-redux";
 const QUESTION_COMPONENT = {
   text: Input,
   select: RadioGroup,
@@ -60,4 +60,8 @@ class QuizAnswer extends React.Component {
   }
 }
 
-export default QuizAnswer
+function mapStateToProps(state, ownProps) {
+  return { quiz: state.quizList.find(quiz => quiz.name === ownProps.match.params.name) || {} }
+}
+
+export default connect(mapStateToProps)(QuizAnswer);
