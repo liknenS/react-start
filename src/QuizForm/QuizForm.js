@@ -2,6 +2,8 @@ import React from 'react'
 import Input from '../elements/Input'
 import Select from '../elements/Select'
 import css from './QuizForm.module.css'
+import {connect} from "react-redux";
+import {ADD_QUIZ} from "../constants/action-types";
 
 const QUESTION_TYPE_OPTIONS = [
   {
@@ -115,8 +117,7 @@ class QuizForm extends React.Component {
   onChangeName = ({ value, name }) => this.setState({ [name]: value })
 
   onSubmit = () => {
-    const { onSubmit } = this.props
-    onSubmit(this.state)
+    this.props.onSubmit(this.state)
     this.setState(INITIAL_STATE)
   }
 
@@ -143,4 +144,13 @@ class QuizForm extends React.Component {
   }
 }
 
-export default QuizForm
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmit: (data) => dispatch({
+      type: ADD_QUIZ,
+      payload: data
+    })
+  }
+}
+
+export default connect(null,mapDispatchToProps)(QuizForm);

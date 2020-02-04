@@ -14,15 +14,7 @@ import QuizList from './QuizList'
 
 
 class App extends React.Component {
-  state = { quizList: [] }
-
-  addQuiz = (quiz) => {
-    const { quizList } = this.state
-    this.setState({ quizList: [...quizList, quiz] })
-  }
-
   render() {
-    const { quizList } = this.state
     return (
       <div className={css.root}>
         <Router>
@@ -39,18 +31,10 @@ class App extends React.Component {
                 <QuizForm onSubmit={this.addQuiz} />
               </Route>
               <Route exact path='/quiz'>
-                <QuizList quizList={quizList} />
+                <QuizList/>
               </Route>
-              <Route
-                exact
-                path='/quiz/:name'
-                quizList={quizList}
-                component={
-                  ({ match }) => {
-                    const quiz = quizList.find(quiz => quiz.name === match.params.name) || {}
-                    return <QuizAnswer quiz={quiz} />
-                  }
-                }
+              <Route exact path='/quiz/:name'
+                component={QuizAnswer}
               />
             </Switch>
           </div>
